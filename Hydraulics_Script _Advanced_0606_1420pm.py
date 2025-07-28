@@ -17,6 +17,14 @@ from fluids import nearest_pipe, fittings
 from AS_4130_HDPE_Capability_Matrix import lookup_hdpe_pipe, AS4130_HDPE
 from pipe_data import roughness
 #----------------------Define the fluid input class and build the pop up box------------------------------
+#  Define a function to check if the input is a float and show error if not, this generalizes the float check
+# and avoids duplication.
+def float_check(value, field_name):
+    try:
+        return float(value.strip())
+    except ValueError:
+        messagebox.showerror("Input Error", f"{field_name} must be a number.")
+        return None
 
 class FluidInputDialog(simpledialog.Dialog):
     def body(self, master):
@@ -42,7 +50,9 @@ class FluidInputDialog(simpledialog.Dialog):
         self.entry_p_drop_threshold.grid(row=4, column=1)
         self.entry_velocity_threshold.grid(row=5, column=1)
         return self.entry_fluid
+    
 #----------------------Validate that the user input flowrate, fluid and temperatures as expected------------
+
     def validate(self):
         fluid_name = self.entry_fluid.get().strip()
         min_temp = self.entry_min_temp.get().strip()
@@ -56,30 +66,23 @@ class FluidInputDialog(simpledialog.Dialog):
             messagebox.showerror("Input Error", "Fluid name must be a non-empty string (not a numeric value).")
             return False
     # Check if minimum temperature of fluid is not empty and is a number
-        try:
-            self.min_temp = float(min_temp)
-        except ValueError:
-            messagebox.showerror("Input Error", "Minimum temperature must be a number.")
+        self.min_temp = float_check(min_temp, "Minimum Temperature")
+        if self.min_temp is None:
             return False
     # Check if maximum temperature of fluid is not empty and is a number
-        try:
-            self.max_temp = float(max_temp)
-        except ValueError:
-            messagebox.showerror("Input Error", "Maximum temperature must be a number.")
+        self.max_temp = float_check(max_temp, "Maximum Temperature")
+        if self.max_temp is None:
             return False
     # Check if minimum temperature of fluid is not greater than max temp of fluid (sanity)
         if self.min_temp >= self.max_temp:
             messagebox.showerror("Input Error", "Min temp must be less than max temp.")
             return False
     # Check if flowrate is a valuid number > 0 
-        try:
-            self.max_Q = float(max_Q)
-            if self.max_Q <= 0:
-                messagebox.showerror("Input Error", "Max flowrate must be a positive number.")
-                return False 
-        except ValueError:
-            messagebox.showerror("Input Error", "Max flowrate must be a number.")
+        self.max_Q = float_check(max_Q,"Maximum Flowrate")
+        if self.max_Q is None or self.max_Q <= 0:
+            messagebox.showerror("Input Error", "Max flowrate must be a positive number.")
             return False
+        
     # Check if pressure drop per 100m is reasonable
         try:
             self.p_drop_threshold= float(p_drop_threshold)
