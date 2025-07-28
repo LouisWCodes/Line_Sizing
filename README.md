@@ -24,14 +24,13 @@ The following libraries must be installed:
 * AS_4130_HDPE_Capability_Matrix by Louis Walker — this file must be saved in same folder as code  
   Data sourced from: https://www.vinidex.com.au/app/uploads/pdf/Vinidex-PE-Pipe-Capability-Matrix.pdf
 
-* pipe_data by Louis Walker — this file must be saved in the same folder as code. It contains simple epsilon values for common pipe materials
+* pipe_data by Louis Walker — this file must be saved in the same folder as code. It contains simple epsilon (roughness) values for common pipe materials
 
 * ASME_Concentric_Reducers_table by Louis Walker — this file must be saved in the same folder as code. It contains lengths for concentric reducers with data sourced from here:  
   https://www.ferrobend.com/dimensions/ansi-asme/pipe-fitting/b16.9-concentric-reducer/
 
-* HDPE_Concentric_Reducers_table
+* HDPE_Concentric_Reducers_table - this file contains information on concentric reducers for HDPE as listed here, from IPLEX: https://www.iplex.com.au/assets/Uploads/dc73cc0a04/POLIplex-PE-Pipes-Fittings-Technical-Guide.pdf . These fittings align with AS4130 and Iplex is a major supplier to the Gas Industry in Australia.
 
-* Program assumes steady state flow and does not take into account effects such as heat transfer, nor does it 
 
 ## USAGE
 
