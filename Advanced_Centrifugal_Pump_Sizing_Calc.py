@@ -172,6 +172,7 @@ def on_calculate(fluid_props):
     
     total_elevation_diff = discharge_height - suction_source  # Net elevation difference pump must overcome
     suction_elev_diff = suction_source - pump_centreline # Elevation difference in suction line (i.e. required static suction lift) in (m)
+    max_dest_pressure = max_dest_pressure  # Maximum pressure at destination in kPa
     # Example segment data for suction line (customize as needed)
     segments_suction = [{
         "length": 50,  # meters
@@ -215,7 +216,7 @@ def on_calculate(fluid_props):
 
     # Pump sizing, assume 0 elevation head and 75% efficiency
     sizing_results = pump_sizing(suction_pressure_drop_kPa, discharge_pressure_drop_kPa, flow_rate, suction_elev_diff, total_elevation_diff,
-                                density=density, efficiency=0.75,vapor_pressure_kPa = vapor_pressure,altitude_m=pump_centreline )
+                                density=density, efficiency=0.75,vapor_pressure_kPa = vapor_pressure,altitude_m=pump_centreline, max_dest_pressure=max_dest_pressure)
 
 
     # After calculating NPSHA and NPSHA_margin_included inside your pump sizing logic:
